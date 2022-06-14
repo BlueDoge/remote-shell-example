@@ -17,11 +17,13 @@ namespace BlueDogeTools.RemoteShell
             Console.WriteLine("[{0}] {1}", Tag, Message);
         }
 
+        // is valid keyboard entry
         public static bool IsValidChar(char test)
         {
-            return IsValidString(""+test);
+            return test != '\u0000';
         }
 
+        // is comprised of valid keyboard entries
         public static bool IsValidString(string test)
         {
             string ValidKeyboardCharacters = "abcdefghijklmnopqrstuvwxyz1234567890-=!@#$%^&*()_+[]\\{}|;':\",.<>/?";
@@ -75,45 +77,6 @@ namespace BlueDogeTools.RemoteShell
             Console.Write('\n');
 
             return secureLine;
-        }
-
-        // un-overescapes newline characters (i.e. "\\n" => "\n")
-        public static string ReadRawLine()
-        {
-            string line = "";
-            var keyData = Console.ReadKey(true);
-            ConsoleKeyInfo? last = null;
-            while (keyData.Key != ConsoleKey.Enter)
-            {
-                bool bIsValidChar = IsValidChar(keyData.KeyChar);
-                if (keyData.Key == ConsoleKey.Backspace) // write this in, but also remove from the str buffer
-                {
-                    line = line.Substring(0, line.Length - 1);
-                    Console.Write("\b \b");
-                }
-
-                if (bIsValidChar || keyData.Key == ConsoleKey.Spacebar)
-                {
-                    Console.Write(keyData.KeyChar);
-                    // if entering a \n sequence, inject the new line
-                    //if (last != null && last?.KeyChar == '\\' && keyData.KeyChar == 'n')
-                    //{
-                    //    line = line.Substring(0, line.Length - 1);
-                    //    line += "\n";
-                    //}
-                    //else
-                    {
-                        line += keyData.KeyChar;
-                    }
-                }
-
-                last = keyData;
-                keyData = Console.ReadKey(true);
-            }
-            // the new line was consumed.
-            Console.Write('\n');
-
-            return line;
         }
     }
 }
