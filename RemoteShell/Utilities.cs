@@ -78,5 +78,12 @@ namespace BlueDogeTools.RemoteShell
 
             return secureLine;
         }
+
+        public static void HardError<T>(object origin, string message) where T : Exception
+        {
+            Console.Error.WriteLine(message);
+            string exceptionMessage = String.Format("Name: {0}\nMessage: {1}", origin.GetType().FullName, message).ToString();
+            throw (T)Activator.CreateInstance(typeof(T), new object[] { exceptionMessage }) ?? new Exception(exceptionMessage);
+        }
     }
 }
