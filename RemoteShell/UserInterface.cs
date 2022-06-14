@@ -73,7 +73,7 @@ namespace BlueDogeTools.RemoteShell
         private void AskForCommand()
         {
             Utilities.WritePrompt("Provide Linux Command: ");
-            Command = Utilities.ReadRawLine();
+            Command = Console.ReadLine();
             //Console.WriteLine("Raw: {0}\nParsed: {1}", Command, Command.Replace("\\n", "\n"));
         }
 
