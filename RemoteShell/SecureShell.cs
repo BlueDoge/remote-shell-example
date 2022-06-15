@@ -28,6 +28,8 @@ namespace BlueDogeTools.RemoteShell
 
         public void Run(ref UserInterface ui)
         {
+            Console.WriteLine("Connecting to {0}...", ui.GetIp());
+
             using (var sshClient = new SshClient(serverIpAddress, ui.GetUsername().ToString(), ui.GetPassword().ToString()))
             {
                 try
@@ -43,6 +45,11 @@ namespace BlueDogeTools.RemoteShell
                 {
                     // do the thing
                     shellStream.WriteLine(ui.GetCommand());
+
+                    // if you want to listen for a response, and know the length of the response, or have a sentinel to look for...
+                    // do it here...
+
+
                     shellStream.Close();
                 } // shellStream.Dispose();
 

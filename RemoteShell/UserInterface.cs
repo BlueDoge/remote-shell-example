@@ -100,8 +100,8 @@ namespace BlueDogeTools.RemoteShell
             AskForUsername();
             AskForPassword();
             AskForCommand();
-            //ClearScreen();
-            Console.WriteLine("Would usually clear screen here...");
+            ClearScreen();
+
             return 0;
         }
     }
