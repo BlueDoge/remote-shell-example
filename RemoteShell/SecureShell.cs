@@ -30,9 +30,16 @@ namespace BlueDogeTools.RemoteShell
         {
             using (var sshClient = new SshClient(serverIpAddress, ui.GetUsername().ToString(), ui.GetPassword().ToString()))
             {
-                sshClient.Connect();
+                try
+                {
+                    sshClient.Connect();
+                }
+                catch (System.Net.Sockets.SocketException ex)
+                {
+                    Utilities.HardError<Exception>(this, String.Format("Error: failed to connect ({0})", ex.Message).ToString());
+                }
 
-                using (ShellStream shellStream = sshClient.CreateShellStream("xterm", 80, 50, 0, 0, 1024))
+                using (ShellStream shellStream = sshClient.CreateShellStream("xterm", 240, 50, 0, 0, 1024))
                 {
                     // do the thing
                     shellStream.WriteLine(ui.GetCommand());
