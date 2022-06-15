@@ -12,7 +12,7 @@ namespace BlueDogeTools.RemoteShell
             int uiResult = ui.Run();
             if(uiResult != 0)
             {
-                throw new Exception("Error: UI failed");
+                Utilities.HardError<Exception>(null, "Error: UI failed");
             }
 
             // jump into the secure shell with the data learned from the ui

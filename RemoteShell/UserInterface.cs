@@ -16,7 +16,7 @@ namespace BlueDogeTools.RemoteShell
         {
             if(serverIpAddress == null)
             {
-                throw new NullReferenceException("Error: invalid ip");
+                Utilities.HardError<NullReferenceException>(this, "Error: invalid ip");
             }
 
             return serverIpAddress;
@@ -26,7 +26,7 @@ namespace BlueDogeTools.RemoteShell
         {
             if (Username == null)
             {
-                throw new NullReferenceException("Error: invalid username");
+                Utilities.HardError<NullReferenceException>(this, "Error: invalid username");
             }
 
             return ref Username;
@@ -36,7 +36,7 @@ namespace BlueDogeTools.RemoteShell
         {
             if(Password == null)
             {
-                throw new NullReferenceException("Error: invalid password");
+                Utilities.HardError<NullReferenceException>(this, "Error: invalid password");
             }
 
             return ref Password;
@@ -46,7 +46,7 @@ namespace BlueDogeTools.RemoteShell
         {
             if(Command == null)
             {
-                throw new NullReferenceException("Error: invalid command");
+                Utilities.HardError<NullReferenceException>(this, "Error: invalid command");
             }
 
             return Command;
@@ -84,7 +84,7 @@ namespace BlueDogeTools.RemoteShell
                 var result = Run();
                 if(result != 0) // always 0 currently, but maybe some use for this
                 {
-                    throw new Exception("Error: UI failed!");
+                    Utilities.HardError<Exception>(this, "Error: UI failed!");
                 }
             }
         }
