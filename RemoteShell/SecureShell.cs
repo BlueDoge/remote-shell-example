@@ -15,14 +15,20 @@ namespace BlueDogeTools.RemoteShell
     public class SecureShell
     {
         string serverIpAddress;
-        public SecureShell(string ipAddress)
+        int serverPort;
+
+        // Waits for .Run() to be called with UserInterface reference passed.
+        public SecureShell(string ipAddress, int port = 22)
         {
             serverIpAddress = ipAddress;
+            serverPort = port;
         }
 
+        // Auto runs the shell
         public SecureShell(ref UserInterface ui)
         {
             serverIpAddress = ui.GetIp();
+            serverPort = ui.GetPort();
             Run(ref ui);
         }
 
@@ -30,7 +36,7 @@ namespace BlueDogeTools.RemoteShell
         {
             Console.WriteLine("Connecting to {0}...", ui.GetIp());
 
-            using (var sshClient = new SshClient(serverIpAddress, Utilities.SecurityStringToString(ref ui.GetUsername()), Utilities.SecurityStringToString(ref ui.GetPassword())))
+            using (var sshClient = new SshClient(serverIpAddress, serverPort, Utilities.SecurityStringToString(ref ui.GetUsername()), Utilities.SecurityStringToString(ref ui.GetPassword())))
             {
                 try
                 {

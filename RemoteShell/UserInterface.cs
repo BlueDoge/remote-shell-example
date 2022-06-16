@@ -8,9 +8,16 @@ namespace BlueDogeTools.RemoteShell
     public class UserInterface
     {
         private string? serverIpAddress;
+        private int? serverPort;
         private SecureString? Username;
         private SecureString? Password;
         private string? Command;
+
+        public int GetPort()
+        {
+            // we don't need to check for null, we'll just assume port 22 if null
+            return serverPort ?? 22;
+        }
 
         public string GetIp()
         {
@@ -58,6 +65,20 @@ namespace BlueDogeTools.RemoteShell
             serverIpAddress = Console.ReadLine();
         }
 
+        private void AskForPort()
+        {
+            Utilities.WritePrompt("Provide SSH Port [22]: ");
+            var userData = Console.ReadLine();
+            if (userData == null)
+            {
+                serverPort = 22;
+            }
+            else
+            {
+                serverPort = Int32.Parse(userData.Trim() == "" ? "22" : userData);
+            }
+        }
+
         private void AskForUsername()
         {
             Utilities.WritePrompt("Provide SSH Username: ");
@@ -97,6 +118,7 @@ namespace BlueDogeTools.RemoteShell
         public int Run()
         {
             AskForIpAddress();
+            AskForPort();
             AskForUsername();
             AskForPassword();
             AskForCommand();
