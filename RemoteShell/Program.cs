@@ -17,6 +17,9 @@ namespace BlueDogeTools.RemoteShell
 
             // jump into the secure shell with the data learned from the ui
             var secureShell = new SecureShell(ref ui);
+
+            ui.DisposeCredentials();
+
             return uiResult;
         }
     }

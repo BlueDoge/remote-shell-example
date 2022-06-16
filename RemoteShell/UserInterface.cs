@@ -13,6 +13,12 @@ namespace BlueDogeTools.RemoteShell
         private SecureString? Password;
         private string? Command;
 
+        public void DisposeCredentials()
+        {
+            Username?.Dispose();
+            Password?.Dispose();
+        }
+
         public int GetPort()
         {
             // we don't need to check for null, we'll just assume port 22 if null
