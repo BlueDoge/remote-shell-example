@@ -30,7 +30,7 @@ namespace BlueDogeTools.RemoteShell
         {
             Console.WriteLine("Connecting to {0}...", ui.GetIp());
 
-            using (var sshClient = new SshClient(serverIpAddress, ui.GetUsername().ToString(), ui.GetPassword().ToString()))
+            using (var sshClient = new SshClient(serverIpAddress, Utilities.SecurityStringToString(ref ui.GetUsername()), Utilities.SecurityStringToString(ref ui.GetPassword())))
             {
                 try
                 {

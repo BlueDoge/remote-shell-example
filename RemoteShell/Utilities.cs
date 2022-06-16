@@ -1,6 +1,7 @@
 ﻿
 
 using System.Security;
+using System.Runtime.InteropServices;
 
 namespace BlueDogeTools.RemoteShell
 {
@@ -84,6 +85,19 @@ namespace BlueDogeTools.RemoteShell
             Console.Error.WriteLine(message);
             string exceptionMessage = String.Format("Name: {0}\nMessage: {1}", origin == null ? "null" : origin.GetType().FullName, message).ToString();
             throw (T)Activator.CreateInstance(typeof(T), new object[] { exceptionMessage }) ?? new Exception(exceptionMessage);
+        }
+
+        public static String SecurityStringToString(ref SecureString secureStr)
+        {
+            IntPtr secureStrPtr = IntPtr.Zero;
+            try
+            {
+                secureStrPtr = Marshal.SecureStringToGlobalAllocUnicode(secureStr);
+                return Marshal.PtrToStringUni(secureStrPtr) ?? "";
+            } finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(secureStrPtr);
+            }
         }
     }
 }
