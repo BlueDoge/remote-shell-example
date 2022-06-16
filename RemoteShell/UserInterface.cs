@@ -116,19 +116,14 @@ namespace BlueDogeTools.RemoteShell
             }
         }
 
-        private void ClearScreen()
-        {
-            Console.Clear();
-        }
-
         public int Run()
         {
+            Utilities.WriteHeader();
             AskForIpAddress();
             AskForPort();
             AskForUsername();
             AskForPassword();
             AskForCommand();
-            ClearScreen();
 
             return 0;
         }

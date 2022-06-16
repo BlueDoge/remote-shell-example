@@ -99,5 +99,18 @@ namespace BlueDogeTools.RemoteShell
                 Marshal.ZeroFreeGlobalAllocUnicode(secureStrPtr);
             }
         }
+
+        public static void ClearScreen()
+        {
+            Console.Clear();
+        }
+
+        public static void WriteHeader()
+        {
+            ClearScreen();
+            Console.WriteLine("Secure Shell Example");
+            Console.WriteLine("Created by Liz Clements in 2022");
+            Console.Write("\n\n");
+        }
     }
 }

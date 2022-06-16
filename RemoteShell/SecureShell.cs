@@ -34,7 +34,7 @@ namespace BlueDogeTools.RemoteShell
 
         public void Run(ref UserInterface ui)
         {
-            Console.WriteLine("Connecting to {0}...", ui.GetIp());
+            Utilities.WriteLog("SecureShell", String.Format("Connecting to {0}...", ui.GetIp()));
 
             using (var sshClient = new SshClient(serverIpAddress, serverPort, Utilities.SecurityStringToString(ref ui.GetUsername()), Utilities.SecurityStringToString(ref ui.GetPassword())))
             {
@@ -49,18 +49,28 @@ namespace BlueDogeTools.RemoteShell
 
                 using (ShellStream shellStream = sshClient.CreateShellStream("xterm", 240, 50, 0, 0, 1024))
                 {
-                    // do the thing
-                    shellStream.WriteLine(ui.GetCommand());
+                    // inject the command, and add the sentinel string to be echoed after the command is completed
+                    shellStream.WriteLine(String.Format("{0} && echo \"bdt-end-stream\"", ui.GetCommand()));
+
+                    Utilities.WriteLog(String.Format("SecureShell", serverIpAddress), $"Executing on {serverIpAddress}...");
+
 
                     // if you want to listen for a response, and know the length of the response, or have a sentinel to look for...
                     // do it here...
 
+                    // loop until the sentinel string is returned to us
+                    for(var d = shellStream.ReadLine(); d != null && d != "bdt-end-stream"; d = shellStream.ReadLine())
+                    {
+                        if (d == "\n") continue;
+                        Utilities.WriteLog(String.Format("{0}", serverIpAddress), d);
+                    }
 
                     shellStream.Close();
                 } // shellStream.Dispose();
 
                 sshClient.Disconnect();
             } // sshClient.Dispose();
+            Utilities.WriteLog("SecureShell", String.Format("Finished."));
         }
     }
 }
