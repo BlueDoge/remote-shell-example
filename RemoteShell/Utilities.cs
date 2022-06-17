@@ -1,4 +1,6 @@
-﻿
+﻿// Originally created by Elizabeth Clements
+// Copyright and License can be found in the LICENSE file or at the github (https://github.com/BlueDoge/remote-shell-example/)
+
 
 using System.Security;
 using System.Runtime.InteropServices;
